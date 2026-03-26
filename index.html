@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | 3D & Game Dev</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+</head>
+<body>
+
+    <nav class="glass-nav">
+        <div class="nav-content">
+            <span class="logo">Portfolio.</span>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h1>Building digital worlds.</h1>
+        <p class="subtitle">Specializing in 3D modeling, animation, and game development.</p>
+    </header>
+
+    <section id="about" class="section">
+        <h2>About Me</h2>
+        <div class="about-container fade-in">
+            <div class="about-text">
+                <p>Hi, I'm a 3D artist and developer with a passion for building highly immersive digital environments. My journey started with a fascination for spatial design, which naturally led me into the depths of Blender and Roblox Studio.</p>
+                <p>When I'm not manipulating vertices or scripting in Lua, I'm usually bringing static concepts to life through fluid animations. I thrive in environments that require both technical problem-solving and creative vision.</p>
+            </div>
+            <div class="about-visual">
+                <div class="about-visual">
+                <div class="glass-placeholder">
+                    <model-viewer 
+                        src="my-model.glb" 
+                        alt="A 3D render of my work" 
+                        auto-rotate 
+                        camera-controls 
+                        shadow-intensity="1" 
+                        interaction-prompt="none"
+                        style="width: 100%; height: 100%; background-color: transparent;">
+                    </model-viewer>
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <nav id="side-index" class="glass-sidebar collapsed">
+        <button id="index-toggle" class="index-header">
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </button>
+        <div id="index-links" class="index-content">
+            <a href="#about">About Me</a>
+            <a href="#resume">Background</a>
+        </div>
+    </nav>
+
+    <section id="resume" class="section" style="max-width: 1200px;">
+        <h2 class="fade-in">My Background</h2>
+        
+        <div class="split-layout">
+            <div class="resume-column" id="projects">
+                <h3 class="column-title fade-in">Tech & Projects</h3>
+                
+                <div class="exp-card">
+                    <div class="exp-header fade-in">
+                        <h4>3D Animation & Modeling</h4>
+                        <span class="date">Ongoing</span>
+                    </div>
+                    <span class="role">Blender Creator</span>
+                    <p>Building high-fidelity models, rigging, and rendering smooth animations. Bringing static concepts to life with a strong focus on spatial design and lighting.</p>
+                </div>
+
+                <div class="exp-card fade-in">
+                    <div class="exp-header">
+                        <h4>Roblox Studio</h4>
+                        <span class="date">Ongoing</span>
+                    </div>
+                    <span class="role">Map Builder & Scripter</span>
+                    <p>Designing immersive maps and scripting game mechanics. Utilizing Moon Animator for complex, cinematic animation sequences within the engine.</p>
+                </div>
+            </div>
+
+            <div class="resume-column" id="history">
+                <h3 class="column-title">Work History</h3>
+                
+                <div class="exp-card fade-in">
+                    <div class="exp-header">
+                        <h4>Costco Wholesale</h4>
+                    </div>
+                    <span class="role">Meat Department</span>
+                    <p>Maintained strict quality control and inventory management in a highly demanding environment. Collaborated tightly with a team to meet daily operational targets.</p>
+                </div>
+
+                <div class="exp-card">
+                    <div class="exp-header">
+                        <h4>Decathlon</h4>
+                    </div>
+                    <span class="role">Athletics Department</span>
+                    <p>Advised customers on specialized sporting gear. Managed department inventory and ensured an optimal, organized layout for high foot traffic.</p>
+                </div>
+
+                <div class="exp-card">
+                    <div class="exp-header">
+                        <h4>IGA</h4>
+                    </div>
+                    <span class="role">Food Service</span>
+                    <p>Delivered excellent customer service while strictly managing food prep and sanitation standards in a rigorous, time-sensitive setting.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="contact-widget" class="glass-box">
+        <button id="contact-toggle" class="contact-header">
+            <span>Message Me</span>
+            <span id="toggle-icon">+</span>
+        </button>
+        
+        <form id="contact-form" class="collapsed">
+            
+            <input type="hidden" name="access_key" value="4bcb5cc2-9040-4956-bde6-b0a30692052c">
+            
+            <div id="form-inputs" style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+                <input type="text" name="name" placeholder="Name" class="glass-input" required>
+                <input type="email" name="email" placeholder="Email" class="glass-input" required>
+                <textarea name="message" placeholder="How can we work together?" class="glass-input" required></textarea>
+                <button type="submit" class="submit-btn" id="submit-btn">Send</button>
+            </div>
+
+            <div id="success-message" style="display: none; text-align: center; color: var(--text-main); padding: 30px 0 10px; font-weight: 600; text-shadow: var(--red-glow);">
+                Done! I'll get back to you soon.
+            </div>
+
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

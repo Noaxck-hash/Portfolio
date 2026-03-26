@@ -1,0 +1,673 @@
+/* Dark Grey & Red Glowing Styling */
+:root {
+    --bg-color: #1c1c1e; /* Deep Apple Dark Grey */
+    --card-bg: #2c2c2e; /* Slightly lighter grey for cards */
+    --text-main: #f5f5f7; /* Off-white for readable paragraphs */
+    --text-muted: #a1a1a6;
+    --accent: #ff3b30; /* Apple System Red */
+    --glass-bg: rgba(28, 28, 30, 0.75); /* Dark frosted glass */
+    --glass-border: rgba(255, 59, 48, 0.25); /* Subtle red border for glass */
+    --red-glow: 0 0 20px rgba(255, 59, 48, 0.5); /* The glowing effect */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.015em;
+    padding-top: 60px; 
+}
+
+/* Glass Navigation */
+.glass-nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+/* --- Centered Navigation --- */
+.nav-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: center; /* Changed from space-between */
+    align-items: center;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--accent);
+    text-shadow: var(--red-glow); /* Glowing Logo */
+}
+
+.links a {
+    text-decoration: none;
+    color: var(--text-main);
+    margin-left: 20px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.links a:hover {
+    color: var(--accent);
+    text-shadow: var(--red-glow);
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 120px 20px 80px;
+}
+
+h1 {
+    font-size: clamp(3rem, 6vw, 5rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    margin-bottom: 10px;
+    color: var(--accent);
+    text-shadow: var(--red-glow); /* Glowing Main Title */
+}
+
+h2, h3, h4 {
+    color: var(--accent);
+}
+
+.subtitle {
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Sections */
+.section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 80px 20px;
+}
+
+h2 {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+/* Cards (What I Do) */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.card {
+    background: var(--card-bg);
+    padding: 40px;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+    box-shadow: var(--red-glow); /* Red glow on hover */
+}
+
+.card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.card p {
+    color: var(--text-muted);
+}
+
+/* --- Experience Grid --- */
+.experience-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.exp-card {
+    background: rgba(28, 28, 30, 0.4); /* Dark translucent background */
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.exp-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+    box-shadow: var(--red-glow);
+}
+
+.exp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.exp-header h4 {
+    font-size: 1.25rem;
+    color: var(--text-main); /* Keep the company name white for readability */
+}
+
+.exp-card .date {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+.exp-card .role {
+    display: inline-block;
+    color: var(--accent);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+.exp-card p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+/* Floating Glass Contact Box */
+.glass-box {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 320px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5), inset 0 0 10px rgba(255, 59, 48, 0.1);
+    z-index: 1000;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.glass-box:hover {
+    box-shadow: var(--red-glow);
+}
+
+/* --- Glass Sheen Effect --- */
+.contact-header {
+    width: 100%;
+    padding: 15px 20px;
+    background: none;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--accent);
+    cursor: none; /* Make sure default cursor stays hidden here */
+    font-family: inherit;
+    position: relative; /* Required for the sheen to stay inside the button */
+    overflow: hidden;   /* Keeps the sheen from spilling outside the box */
+}
+
+/* The actual sheen gradient */
+.contact-header::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%; /* Start way off to the left */
+    width: 50%;
+    height: 100%;
+    /* A translucent white gradient fading out on both sides */
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-25deg); /* Angles the light */
+    transition: none;
+}
+
+/* Trigger the sweep animation when hovering over the glass box */
+.glass-box:hover .contact-header::after {
+    animation: sweep 1.2s ease-in-out;
+}
+
+@keyframes sweep {
+    0% {
+        left: -150%;
+    }
+    100% {
+        left: 200%; /* Sweep all the way across to the right */
+    }
+}
+
+#contact-form {
+    padding: 0 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+    max-height: 400px;
+    opacity: 1;
+}
+
+#contact-form.collapsed {
+    max-height: 0;
+    opacity: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+}
+
+.glass-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.4); /* Dark inputs */
+    color: var(--text-main);
+    font-family: inherit;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-input::placeholder {
+    color: var(--text-muted);
+}
+
+.glass-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 10px rgba(255, 59, 48, 0.3);
+}
+
+textarea.glass-input {
+    resize: none;
+    height: 80px;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.submit-btn:hover {
+    background: #d63026;
+    box-shadow: var(--red-glow);
+}
+
+/* --- Magnifying Glass Text Effect --- */
+.bubble-char {
+    display: inline-block;
+    /* Fast transition for smooth following, but not so fast it snaps violently */
+    transition: transform 0.15s ease-out, color 0.15s ease-out, text-shadow 0.15s ease-out;
+    will-change: transform; /* Tells the browser to optimize this animation */
+    pointer-events: none; /* Lets the mouse interact with the whole h1 smoothly */
+}
+
+/* Ensure the h1 handles the flex layout for the spans properly */
+h1 {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; 
+    cursor: none; /* Changed from default to none */
+}
+
+/* --- Custom Cursor --- */
+/* Hide the default cursor everywhere */
+body, a, button, input, textarea, .contact-header {
+    cursor: none; 
+}
+
+.custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--accent); /* Hollow red circle */
+    border-radius: 50%;
+    transform: translate(-50%, -50%); /* Centers the div exactly on the mouse coordinates */
+    pointer-events: none; /* Crucial: stops the cursor div from blocking your clicks */
+    z-index: 9999;
+    transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease;
+    mix-blend-mode: difference; /* Gives it a cool color-inverting effect over light backgrounds */
+}
+
+/* When hovering over clickable items, change the cursor style */
+.custom-cursor.hovering {
+    width: 16px;
+    height: 16px;
+    background-color: var(--accent); /* Fills in the circle */
+}
+
+/* When hovering over clickable items */
+.custom-cursor.hovering {
+    width: 16px;
+    height: 16px;
+    background-color: var(--accent);
+}
+
+/* NEW: When the left mouse button is clicked */
+.custom-cursor.clicking {
+    background-color: var(--accent); /* Fills in the circle */
+    width: 20px;                     /* Shrinks it slightly for a "pressed" feel */
+    height: 20px;
+}
+
+/* --- Split Layout for Resume --- */
+.split-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin: 0 auto;
+}
+
+/* Stacks into a single column on mobile screens */
+@media (max-width: 800px) {
+    .split-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.resume-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.column-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: var(--text-main);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 10px;
+}
+
+/* --- Floating Left Index --- */
+.glass-sidebar {
+    position: fixed;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    width: 180px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5), inset 0 0 10px rgba(255, 59, 48, 0.1);
+    z-index: 1000;
+    overflow: hidden;
+    /* Smooth width animation when opening/closing */
+    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-sidebar.collapsed {
+    width: 50px; /* Shrinks to just the icon */
+}
+
+/* --- Floating Left Index (Updated for Hamburger) --- */
+/* --- Floating Left Index (Moved to Top Left) --- */
+.glass-sidebar {
+    position: fixed;
+    top: 100px; /* Sits perfectly below your top navigation bar */
+    left: 20px;
+    /* transform: translateY(-50%); <-- DELETE THIS LINE */
+    width: 180px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5), inset 0 0 10px rgba(255, 59, 48, 0.1);
+    z-index: 1000;
+    overflow: hidden;
+    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-sidebar.collapsed {
+    width: 54px; /* Just wide enough to frame the hamburger icon cleanly */
+}
+
+.index-header {
+    width: 100%;
+    padding: 18px 15px; /* Spacing to center the icon */
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    cursor: none; /* Keeps custom cursor active */
+}
+
+/* --- The Hamburger Lines --- */
+.hamburger {
+    width: 24px;
+    height: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+}
+
+.hamburger span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: var(--accent);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 8px rgba(255, 59, 48, 0.6); /* Slight red glow on the lines */
+}
+
+/* --- The 'X' Animation (Triggers when the menu is open) --- */
+/* Top line rotates down */
+.glass-sidebar:not(.collapsed) .hamburger span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+/* Middle line fades out */
+.glass-sidebar:not(.collapsed) .hamburger span:nth-child(2) {
+    opacity: 0; 
+}
+
+/* Bottom line rotates up */
+.glass-sidebar:not(.collapsed) .hamburger span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+/* --- Menu Content --- */
+.index-content {
+    display: flex;
+    flex-direction: column;
+    padding: 0 15px 15px;
+    gap: 15px;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    white-space: nowrap; /* Prevents text from wrapping awkwardly while the menu slides closed */
+}
+
+/* --- Automatic Highlighter Active State --- */
+.index-content a.active {
+    color: var(--accent);
+    text-shadow: var(--red-glow);
+    font-weight: 600;
+    transform: translateX(5px); /* Nudges the active text slightly to the right */
+}
+
+.glass-sidebar.collapsed .index-content {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.index-content a {
+    color: var(--text-main);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.index-content a:hover {
+    color: var(--accent);
+    text-shadow: var(--red-glow);
+}
+
+/* Rotates the arrow when open */
+.glass-sidebar:not(.collapsed) #index-icon {
+    transform: rotate(90deg);
+}
+
+.index-content {
+    display: flex;
+    flex-direction: column;
+    padding: 0 15px 15px;
+    gap: 12px;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+}
+
+.glass-sidebar.collapsed .index-content {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.index-content a {
+    color: var(--text-main);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.index-content a:hover {
+    color: var(--accent);
+    text-shadow: var(--red-glow);
+}
+
+/* --- About Me Section --- */
+.about-container {
+    display: flex;
+    gap: 50px;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Stacks neatly on mobile devices */
+@media (max-width: 800px) {
+    .about-container {
+        flex-direction: column-reverse;
+        text-align: center;
+    }
+}
+
+.about-text {
+    flex: 1;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+}
+
+.about-text p {
+    margin-bottom: 20px;
+}
+
+.about-text p:last-child {
+    margin-bottom: 0;
+}
+
+.about-visual {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+/* The frame for your image/render */
+.glass-placeholder {
+    width: 100%;
+    max-width: 350px;
+    aspect-ratio: 1; /* Keeps it a perfect square */
+    background: rgba(28, 28, 30, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    overflow: hidden; /* Ensures any image you put inside doesn't spill over the rounded corners */
+}
+
+/* --- Ensure the container hides the cursor --- */
+.glass-placeholder {
+    /* ... keep your existing properties (width, background, etc) ... */
+    cursor: none !important; 
+}
+
+/* --- 3D Viewer Bulletproof Cursor Fix --- */
+model-viewer {
+    outline: none;
+    cursor: none !important; 
+    
+    /* Forces the internal grab cursors to render an invisible 1x1 image */
+    --cursor-hand: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=), none !important;
+    --cursor-grab: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=), none !important;
+    --cursor-grabbing: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=), none !important;
+}
+
+/* --- Scroll Fade-In Animations --- */
+.fade-in {
+    opacity: 0;
+    transform: translateY(40px); /* Pushes the element down 40px */
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform; /* Hardware acceleration for smooth frames */
+}
+
+/* The class our JavaScript will add when the element comes on screen */
+.fade-in.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Cascading Delays --- */
+/* This makes the grid cards and experience cards slide up one by one */
+.card:nth-child(1), .exp-card:nth-child(1) { transition-delay: 0.1s; }
+.card:nth-child(2), .exp-card:nth-child(2) { transition-delay: 0.2s; }
+.card:nth-child(3), .exp-card:nth-child(3) { transition-delay: 0.3s; }
+.card:nth-child(4), .exp-card:nth-child(4) { transition-delay: 0.4s; }

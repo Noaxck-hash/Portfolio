@@ -1,0 +1,278 @@
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // --- 1. Floating Contact Box Logic ---
+    const contactToggle = document.getElementById('contact-toggle');
+    const contactForm = document.getElementById('contact-form');
+    const toggleIcon = document.getElementById('toggle-icon');
+
+    // --- Floating Left Index Logic ---
+    const indexToggle = document.getElementById('index-toggle');
+    const sideIndex = document.getElementById('side-index');
+
+    indexToggle.addEventListener('click', () => {
+        sideIndex.classList.toggle('collapsed');
+    });
+
+    // Make sure the form starts closed
+    contactForm.classList.add('collapsed');
+
+    contactToggle.addEventListener('click', () => {
+        contactForm.classList.toggle('collapsed');
+        
+        // Swap out the plus for a minus when opened
+        if (contactForm.classList.contains('collapsed')) {
+            toggleIcon.textContent = '+';
+        } else {
+            toggleIcon.textContent = '−';
+        }
+    });
+
+    // --- Web3Forms Submission Logic ---
+    const form = document.getElementById('contact-form');
+    const formInputs = document.getElementById('form-inputs');
+    const successMessage = document.getElementById('success-message');
+    const submitBtn = document.getElementById('submit-btn');
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault(); // Stops the page from refreshing
+
+        // Change button text to show it's working
+        submitBtn.innerText = 'Sending...';
+        submitBtn.disabled = true;
+
+        // Gather the data from the form
+        const formData = new FormData(form);
+        const object = Object.fromEntries(formData);
+        const json = JSON.stringify(object);
+
+        // Send the data to Web3Forms
+        fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: json
+        })
+        .then(async (response) => {
+            let json = await response.json();
+            if (response.status == 200) {
+                // Success! Hide the inputs and show the Done message
+                formInputs.style.display = 'none';
+                successMessage.style.display = 'block';
+            } else {
+                // If something goes wrong with the API
+                console.log(response);
+                submitBtn.innerText = 'Error. Try Again.';
+                submitBtn.disabled = false;
+            }
+        })
+        .catch(error => {
+            console.log(error);
+            submitBtn.innerText = 'Error. Try Again.';
+            submitBtn.disabled = false;
+        });
+    });
+
+
+    // --- 2. Magnifying Glass Bubble Text Logic ---
+    const heroText = document.querySelector('.hero h1');
+    const textContent = heroText.innerText;
+    
+    // Clear the original text
+    heroText.innerHTML = ''; 
+
+    // Rebuild the text, wrapping every letter and space in a <span>
+    textContent.split('').forEach(char => {
+        const span = document.createElement('span');
+        if (char === ' ') {
+            span.innerHTML = '&nbsp;'; // Keep spaces intact
+        } else {
+            span.innerText = char;
+        }
+        span.classList.add('bubble-char');
+        heroText.appendChild(span);
+    });
+
+    const chars = document.querySelectorAll('.bubble-char');
+
+    // Track mouse movement over the whole header
+    heroText.addEventListener('mousemove', (e) => {
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+
+        chars.forEach(char => {
+            const rect = char.getBoundingClientRect();
+            const charCenterX = rect.left + rect.width / 2;
+            const charCenterY = rect.top + rect.height / 2;
+
+            const distX = mouseX - charCenterX;
+            const distY = mouseY - charCenterY;
+            const distance = Math.sqrt(distX * distX + distY * distY);
+
+            const maxDistance = 120; 
+
+            if (distance < maxDistance) {
+                const scale = 1 + (0.6 * (maxDistance - distance) / maxDistance);
+                char.style.transform = `scale(${scale}) translateY(-${(scale - 1) * 15}px)`;
+                char.style.color = '#ffffff'; 
+                char.style.textShadow = '0 0 25px rgba(255, 59, 48, 0.9)';
+            } else {
+                char.style.transform = 'scale(1) translateY(0)';
+                char.style.color = 'var(--accent)';
+                char.style.textShadow = 'var(--red-glow)';
+            }
+        });
+    });
+
+    // Reset everything when the mouse leaves the h1 area completely
+    heroText.addEventListener('mouseleave', () => {
+        chars.forEach(char => {
+            char.style.transform = 'scale(1) translateY(0)';
+            char.style.color = 'var(--accent)';
+            char.style.textShadow = 'var(--red-glow)';
+        });
+    });
+
+
+    // --- 3. Custom Cursor & Click Logic ---
+    const cursor = document.createElement('div');
+    cursor.classList.add('custom-cursor');
+    document.body.appendChild(cursor);
+
+    // Make the cursor follow the mouse
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+    });
+
+    // Handle Left Click (Mousedown/Mouseup)
+    document.addEventListener('mousedown', (e) => {
+        // e.button === 0 ensures it only triggers on the left mouse button
+        if (e.button === 0) {
+            cursor.classList.add('clicking');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        cursor.classList.remove('clicking');
+    });
+
+    // Add the "hovering" class when moving over links, buttons, inputs, or the h1
+    // Added model-viewer to the end of the list
+const interactiveElements = document.querySelectorAll('a, button, input, textarea, .contact-header, h1, .index-header, model-viewer');
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+    });
+
+
+    // --- 4 & 5. Smooth Scrolling & Intersection Observer (Fixed) ---
+    
+    const trackedSections = document.querySelectorAll('#about, #work, #resume');
+    const sidebarLinks = document.querySelectorAll('.index-content a');
+    
+    // The "Lock" variable
+    let isClickScrolling = false;
+    let scrollTimeout;
+
+    // Configure the camera
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.2 // Lowered to 20% so it catches the bottom sections easier
+    };
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+        // If the lock is ON (because we clicked a link), ignore the camera
+        if (isClickScrolling) return; 
+
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const currentId = entry.target.getAttribute('id');
+                
+                // Remove active from all
+                sidebarLinks.forEach(link => link.classList.remove('active'));
+                
+                // Add active to the current one
+                const activeLink = document.querySelector(`.index-content a[href="#${currentId}"]`);
+                if (activeLink) activeLink.classList.add('active');
+            }
+        });
+    }, observerOptions);
+
+    trackedSections.forEach(section => {
+        sectionObserver.observe(section);
+    });
+
+    // Handle the clicking
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            
+            // 1. Turn ON the lock
+            isClickScrolling = true;
+            clearTimeout(scrollTimeout); // Reset the timer if they click multiple times fast
+
+            // 2. Instantly move the red highlight IF we clicked a sidebar link
+            if (this.parentElement.classList.contains('index-content')) {
+                sidebarLinks.forEach(link => link.classList.remove('active'));
+                this.classList.add('active');
+            }
+
+            // 3. Perform the smooth scroll
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+
+            // 4. Turn OFF the lock after the scroll animation finishes (800 milliseconds)
+            scrollTimeout = setTimeout(() => {
+                isClickScrolling = false;
+            }, 800);
+        });
+    });
+
+    // Tell the observer to start watching our sections
+    trackedSections.forEach(section => {
+        sectionObserver.observe(section);
+    });
+
+    // --- 6. 3D Viewer Shadow DOM Override ---
+    // Wait for the model viewer to load, then inject custom CSS into its hidden core
+    const viewer = document.querySelector('model-viewer');
+    if (viewer) {
+        viewer.addEventListener('load', () => {
+            const shadowRoot = viewer.shadowRoot;
+            if (shadowRoot) {
+                const style = document.createElement('style');
+                style.textContent = '* { cursor: none !important; }';
+                shadowRoot.appendChild(style);
+            }
+        });
+    }
+
+    // --- 7. Scroll Fade-In Animation Logic ---
+    const fadeElements = document.querySelectorAll('.fade-in');
+
+    const fadeObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Add the visible class to trigger the CSS animation
+                entry.target.classList.add('is-visible');
+                
+                // Stop watching the element so it doesn't fade out and in every time you scroll up and down
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.15 // Triggers when 15% of the element is visible on screen
+    });
+
+    // Attach the observer to every element with the fade-in class
+    fadeElements.forEach(el => {
+        fadeObserver.observe(el);
+    });
+
+});
