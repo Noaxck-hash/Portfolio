@@ -336,20 +336,23 @@ textarea.glass-input {
 }
 
 /* --- Magnifying Glass Text Effect --- */
-.bubble-char {
-    display: inline-block;
-    /* Fast transition for smooth following, but not so fast it snaps violently */
-    transition: transform 0.15s ease-out, color 0.15s ease-out, text-shadow 0.15s ease-out;
-    will-change: transform; /* Tells the browser to optimize this animation */
-    pointer-events: none; /* Lets the mouse interact with the whole h1 smoothly */
+h1 {
+    /* Removed flexbox, reverting to standard text alignment so words wrap naturally */
+    text-align: center; 
+    cursor: none; 
 }
 
-/* Ensure the h1 handles the flex layout for the spans properly */
-h1 {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap; 
-    cursor: none; /* Changed from default to none */
+/* NEW: Keeps the letters of a word grouped together */
+.word-wrapper {
+    display: inline-block;
+    white-space: nowrap; 
+}
+
+.bubble-char {
+    display: inline-block;
+    transition: transform 0.15s ease-out, color 0.15s ease-out, text-shadow 0.15s ease-out;
+    will-change: transform;
+    pointer-events: none;
 }
 
 /* --- Custom Cursor --- */

@@ -82,16 +82,29 @@ document.addEventListener('DOMContentLoaded', () => {
     // Clear the original text
     heroText.innerHTML = ''; 
 
-    // Rebuild the text, wrapping every letter and space in a <span>
-    textContent.split('').forEach(char => {
-        const span = document.createElement('span');
-        if (char === ' ') {
-            span.innerHTML = '&nbsp;'; // Keep spaces intact
-        } else {
-            span.innerText = char;
+    // Split text into words first
+    const words = textContent.split(' ');
+
+    words.forEach((word, wordIndex) => {
+        // Create a wrapper for the word so it doesn't break mid-word on mobile
+        const wordWrapper = document.createElement('span');
+        wordWrapper.classList.add('word-wrapper');
+        
+        // Split the word into individual characters
+        word.split('').forEach(char => {
+            const charSpan = document.createElement('span');
+            charSpan.innerText = char;
+            charSpan.classList.add('bubble-char');
+            wordWrapper.appendChild(charSpan);
+        });
+        
+        heroText.appendChild(wordWrapper);
+
+        // Add a normal space after each word (except the last one) 
+        // This gives the browser a natural place to wrap to a new line
+        if (wordIndex < words.length - 1) {
+            heroText.appendChild(document.createTextNode(' '));
         }
-        span.classList.add('bubble-char');
-        heroText.appendChild(span);
     });
 
     const chars = document.querySelectorAll('.bubble-char');
