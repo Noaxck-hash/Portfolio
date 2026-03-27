@@ -24,6 +24,13 @@ body {
     -webkit-font-smoothing: antialiased;
     letter-spacing: -0.015em;
     padding-top: 60px; 
+    
+    /* NEW: The 3D Viewport Grid */
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: center center;
 }
 
 /* Glass Navigation */
@@ -419,7 +426,7 @@ body, a, button, input, textarea, .contact-header {
 /* --- Floating Left Index --- */
 .glass-sidebar {
     position: fixed;
-    top: 50%;
+    top: 180px;
     left: 20px;
     transform: translateY(-50%);
     width: 180px;
@@ -671,3 +678,63 @@ model-viewer {
 .card:nth-child(2), .exp-card:nth-child(2) { transition-delay: 0.2s; }
 .card:nth-child(3), .exp-card:nth-child(3) { transition-delay: 0.3s; }
 .card:nth-child(4), .exp-card:nth-child(4) { transition-delay: 0.4s; }
+
+/* --- Ambient Background Glow --- */
+.ambient-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 800px;
+    height: 800px;
+    /* We make the default center slightly brighter here */
+    background: radial-gradient(circle, rgba(255, 59, 48, 0.12) 0%, transparent 60%);
+    border-radius: 50%;
+    pointer-events: none; 
+    z-index: -1; 
+    
+    /* Default state */
+    opacity: 0.7;
+    transform: translate(-50%, -50%) scale(1);
+    
+    /* Removed the background transition, added opacity */
+    transition: left 2s cubic-bezier(0.16, 1, 0.3, 1), 
+                top 2s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.2s ease-out,
+                opacity 0.2s ease-out;
+    will-change: left, top, transform, opacity; 
+}
+
+/* The state when you hold the mouse button down */
+.ambient-glow.clicking {
+    /* Shrinks the radius and boosts the opacity to make it punchy */
+    transform: translate(-50%, -50%) scale(0.6);
+    opacity: 1; 
+}
+
+/* --- Mobile & Touch Device Optimizations --- */
+@media (hover: none) and (pointer: coarse) {
+    /* Hide the custom red ring on touchscreens */
+    .custom-cursor {
+        display: none !important;
+    }
+
+    /* Restore native touch behavior so the browser knows what to do */
+    body, a, button, input, textarea, .contact-header, h1, .index-header, model-viewer {
+        cursor: auto !important;
+    }
+    
+    a, button, .contact-header, .index-header {
+        cursor: pointer !important;
+    }
+
+    /* Add a native-feeling "squish" effect when tapping buttons */
+    .submit-btn:active, .contact-header:active, .index-header:active, .card:active, .exp-card:active {
+        transform: scale(0.97);
+        transition: transform 0.1s ease;
+    }
+
+    /* Ensure the ambient glow doesn't lag behind scrolling on mobile */
+    .ambient-glow {
+        transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+    }
+}

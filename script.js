@@ -100,6 +100,28 @@ document.addEventListener('DOMContentLoaded', () => {
     heroText.addEventListener('mousemove', (e) => {
         const mouseX = e.clientX;
         const mouseY = e.clientY;
+        // --- Optimized Mouse & Glow Tracking ---
+    const glow = document.querySelector('.ambient-glow');
+    let isMoving = false;
+
+    // requestAnimationFrame syncs the movement to your screen's refresh rate to prevent lag
+    document.addEventListener('mousemove', (e) => {
+        if (!isMoving) {
+            window.requestAnimationFrame(() => {
+                // Instantly move the cursor
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+                
+                // Just update the coordinates for the glow; CSS will handle the smooth delay
+                if (glow) {
+                    glow.style.left = e.clientX + 'px';
+                    glow.style.top = e.clientY + 'px';
+                }
+                isMoving = false;
+            });
+            isMoving = true;
+        }
+    });
 
         chars.forEach(char => {
             const rect = char.getBoundingClientRect();
@@ -135,35 +157,60 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    // --- 3. Custom Cursor & Click Logic ---
+    // --- 3. Custom Cursor & Ambient Glow Logic ---
     const cursor = document.createElement('div');
     cursor.classList.add('custom-cursor');
     document.body.appendChild(cursor);
 
-    // Make the cursor follow the mouse
+    const glow = document.querySelector('.ambient-glow');
+    let isMoving = false;
+
+    // Movement Tracker (Syncs to screen refresh rate)
     document.addEventListener('mousemove', (e) => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
+        if (!isMoving) {
+            window.requestAnimationFrame(() => {
+                // Move the custom cursor
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+                
+                // Move the background glow
+                if (glow) {
+                    glow.style.left = e.clientX + 'px';
+                    glow.style.top = e.clientY + 'px';
+                }
+                isMoving = false;
+            });
+            isMoving = true;
+        }
     });
 
-    // Handle Left Click (Mousedown/Mouseup)
+    // --- Click & Touch Tracker (Mousedown/Mouseup + Touchstart/Touchend) ---
+    
+    // Desktop Mouse Events
     document.addEventListener('mousedown', (e) => {
-        // e.button === 0 ensures it only triggers on the left mouse button
-        if (e.button === 0) {
+        if (e.button === 0) { 
             cursor.classList.add('clicking');
+            if (glow) glow.classList.add('clicking'); 
         }
     });
 
     document.addEventListener('mouseup', () => {
         cursor.classList.remove('clicking');
+        if (glow) glow.classList.remove('clicking'); 
     });
 
-    // Add the "hovering" class when moving over links, buttons, inputs, or the h1
-    // Added model-viewer to the end of the list
-const interactiveElements = document.querySelectorAll('a, button, input, textarea, .contact-header, h1, .index-header, model-viewer');
-    interactiveElements.forEach(el => {
-        el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
-        el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+    // NEW: Mobile Touch Events
+    document.addEventListener('touchstart', (e) => {
+        if (glow) {
+            // Instantly move the glow to exactly where the finger tapped
+            glow.style.left = e.touches[0].clientX + 'px';
+            glow.style.top = e.touches[0].clientY + 'px';
+            glow.classList.add('clicking'); // Condense the light
+        }
+    });
+
+    document.addEventListener('touchend', () => {
+        if (glow) glow.classList.remove('clicking'); // Restore the light
     });
 
 
