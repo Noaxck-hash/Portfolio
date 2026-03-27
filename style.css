@@ -337,19 +337,19 @@ textarea.glass-input {
 
 /* --- Magnifying Glass Text Effect --- */
 h1 {
-    /* Removed flexbox, reverting to standard text alignment so words wrap naturally */
-    text-align: center; 
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.3em; /* This automatically adds perfect spacing between words */
     cursor: none; 
 }
 
-/* NEW: Keeps the letters of a word grouped together */
 .word-wrapper {
-    display: inline-block;
-    white-space: nowrap; 
+    display: flex; /* Locks the individual letters of a word into a single row */
 }
 
 .bubble-char {
-    display: inline-block;
+    display: block; /* Changed from inline-block for better transform performance */
     transition: transform 0.15s ease-out, color 0.15s ease-out, text-shadow 0.15s ease-out;
     will-change: transform;
     pointer-events: none;

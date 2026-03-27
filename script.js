@@ -75,22 +75,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    // --- 2. Magnifying Glass Bubble Text Logic ---
+// --- 2. Magnifying Glass Bubble Text Logic ---
     const heroText = document.querySelector('.hero h1');
-    const textContent = heroText.innerText;
+    // .trim() ensures no accidental spaces at the start/end cause issues
+    const textContent = heroText.innerText.trim(); 
     
-    // Clear the original text
     heroText.innerHTML = ''; 
 
-    // Split text into words first
+    // Split text into words
     const words = textContent.split(' ');
 
-    words.forEach((word, wordIndex) => {
-        // Create a wrapper for the word so it doesn't break mid-word on mobile
+    words.forEach(word => {
+        // Wrapper keeps the letters together
         const wordWrapper = document.createElement('span');
         wordWrapper.classList.add('word-wrapper');
         
-        // Split the word into individual characters
+        // Put each letter in the wrapper
         word.split('').forEach(char => {
             const charSpan = document.createElement('span');
             charSpan.innerText = char;
@@ -98,13 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
             wordWrapper.appendChild(charSpan);
         });
         
+        // Add the finished word to the h1
         heroText.appendChild(wordWrapper);
-
-        // Add a normal space after each word (except the last one) 
-        // This gives the browser a natural place to wrap to a new line
-        if (wordIndex < words.length - 1) {
-            heroText.appendChild(document.createTextNode(' '));
-        }
     });
 
     const chars = document.querySelectorAll('.bubble-char');
