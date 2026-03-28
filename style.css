@@ -131,10 +131,14 @@ h2 {
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-.card:hover {
-    transform: translateY(-5px);
+.card:hover, .exp-card:hover {
+    transform: translateY(-5px); /* Or whatever height you had it set to! */
     border-color: var(--accent);
-    box-shadow: var(--red-glow); /* Red glow on hover */
+    box-shadow: var(--red-glow);
+    
+    /* NEW: Kills any leftover scroll delays instantly on hover */
+    transition-delay: 0s !important;
+    transition-duration: 0.2s !important; 
 }
 
 .card h3 {
@@ -163,12 +167,6 @@ h2 {
     transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-}
-
-.exp-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--accent);
-    box-shadow: var(--red-glow);
 }
 
 .exp-header {
@@ -740,4 +738,111 @@ model-viewer {
     .ambient-glow {
         transition: opacity 0.2s ease-out, transform 0.2s ease-out;
     }
+}
+
+/* --- Theme Switcher Button --- */
+.theme-switch {
+    position: fixed;
+    top: 80px; /* Sits perfectly below the nav bar */
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    color: var(--text-main);
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: none; /* Keeps your custom cursor active */
+    z-index: 999;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.theme-switch:hover {
+    transform: scale(1.1);
+    box-shadow: var(--red-glow);
+}
+
+/* --- Morphing Sun/Moon Icon Animations --- */
+.theme-icon {
+    color: var(--text-main);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none; /* Prevents the SVG from interfering with button clicks */
+}
+
+/* Hardcoding the origin to 12px keeps the rotation perfectly centered in all browsers */
+.center-circle, .moon-mask-shape, .sun-rays {
+    transform-origin: 12px 12px; 
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+}
+
+/* --- DEFAULT STATE: Dark Mode (Moon) --- */
+.center-circle {
+    transform: scale(1.6); /* Inflates the center circle */
+}
+.moon-mask-shape {
+    transform: translate(-12px, 12px); /* Slides the mask over the circle to carve the crescent */
+}
+.sun-rays {
+    transform: rotate(-45deg) scale(0.3); /* Shrinks and spins the rays away */
+    opacity: 0;
+}
+
+/* --- TOGGLED STATE: Light Mode (Sun) --- */
+body.light-mode .theme-icon {
+    transform: rotate(90deg); /* Spins the entire icon for a nice flourish */
+}
+body.light-mode .center-circle {
+    transform: scale(1); /* Returns the core to normal size */
+}
+body.light-mode .moon-mask-shape {
+    transform: translate(0, 0); /* Slides the mask away completely */
+}
+body.light-mode .sun-rays {
+    transform: rotate(0) scale(1); /* Shoots the rays out */
+    opacity: 1;
+}
+
+/* --- Light Mode Color Overrides --- */
+body.light-mode {
+    --bg-color: #f5f5f7; /* Apple's signature light grey */
+    --card-bg: #ffffff;
+    --text-main: #1d1d1f; /* Dark text for readability */
+    --text-muted: #86868b;
+    --glass-bg: rgba(255, 255, 255, 0.75); /* White frosted glass */
+    --glass-border: rgba(0, 0, 0, 0.1); 
+    --red-glow: 0 4px 15px rgba(255, 59, 48, 0.3); /* Softer glow for light backgrounds */
+}
+
+/* Adjust specific elements so they look good on a white background */
+body.light-mode .glass-input {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: var(--text-main);
+}
+
+body.light-mode .exp-card, 
+body.light-mode .glass-placeholder {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+body.light-mode .ambient-glow {
+    /* Adjusts the flashlight so it isn't completely invisible on white */
+    background: radial-gradient(circle, rgba(255, 59, 48, 0.08) 0%, transparent 60%);
+}
+
+/* --- Smooth Theme Transition Trick --- */
+.theme-transition,
+.theme-transition * {
+    transition: background-color 0.5s ease, 
+                background 0.5s ease, 
+                color 0.5s ease, 
+                border-color 0.5s ease, 
+                box-shadow 0.5s ease !important;
 }

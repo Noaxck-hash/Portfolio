@@ -315,19 +315,53 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Add the visible class to trigger the CSS animation
                 entry.target.classList.add('is-visible');
                 
-                // Stop watching the element so it doesn't fade out and in every time you scroll up and down
+                // Stop watching the element 
                 observer.unobserve(entry.target);
+
+                // NEW: Remove the animation classes entirely after 1.2 seconds
+                // This gives full control back to your hover effects!
+                setTimeout(() => {
+                    entry.target.classList.remove('fade-in', 'is-visible');
+                }, 1200); 
             }
         });
     }, {
         root: null,
         rootMargin: '0px',
-        threshold: 0.15 // Triggers when 15% of the element is visible on screen
+        threshold: 0.15 
     });
 
-    // Attach the observer to every element with the fade-in class
     fadeElements.forEach(el => {
         fadeObserver.observe(el);
+    });
+
+    // --- 8. Light/Dark Mode Toggle ---
+    const themeToggle = document.getElementById('theme-toggle');
+
+    // Check if the user already chose a theme in a previous visit
+    if (localStorage.getItem('portfolio-theme') === 'light') {
+        document.body.classList.add('light-mode');
+    }
+
+    // Toggle the theme on click with a smooth fade
+    themeToggle.addEventListener('click', () => {
+        // 1. Turn on the smooth transition override
+        document.body.classList.add('theme-transition');
+
+        // 2. Swap the colors
+        document.body.classList.toggle('light-mode');
+        
+        // 3. Save the user's choice
+        if (document.body.classList.contains('light-mode')) {
+            localStorage.setItem('portfolio-theme', 'light');
+        } else {
+            localStorage.setItem('portfolio-theme', 'dark');
+        }
+
+        // 4. Turn off the override after exactly 0.5 seconds
+        setTimeout(() => {
+            document.body.classList.remove('theme-transition');
+        }, 500);
     });
 
 });
